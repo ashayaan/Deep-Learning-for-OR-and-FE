@@ -2,7 +2,7 @@
 # @Author: ashayaan
 # @Date:   2019-09-21 00:37:27
 # @Last Modified by:   ashayaan
-# @Last Modified time: 2019-09-24 11:44:35
+# @Last Modified time: 2019-09-28 00:29:33
 import torch
 import torch.nn as nn
 import pandas as pd
@@ -10,6 +10,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from que2_network import Network
 from sklearn.utils import shuffle
+import itertools
+
 
 
 epochs = 1000
@@ -20,10 +22,10 @@ class Train(object):
 		super(Train, self).__init__()
 		self.learning_rate = learning_rate
 		self.net = Network()
-		self.parameters = self.net.parameters()
-		self.optimizer = torch.optim.SGD(self.parameters,lr = self.learning_rate)
+		self.W = torch.ones(2,requires_grad=True)
+		self.b = torch.ones(1,requires_grad=True)
+		self.optimizer = torch.optim.SGD(itertools.chain(self.net.parameters(), [self.W], [self.b]), lr = self.learning_rate)
 		self.loss_function =  torch.nn.BCELoss(reduction='mean')
-		
 		
 
 def generatingSpace(t):
@@ -40,43 +42,43 @@ def generatingSpace(t):
 	x2 = r2 * np.cos(phi2)
 	y2 = r2 * np.sin(phi2)
 
-	plt.plot(x1,y1)
-	plt.plot(x2,y2)
-	plt.show()
+	# plt.plot(x1,y1)
+	# plt.plot(x2,y2)
+	# plt.show()
 
 	return np.array([x1,y1,np.ones(x1.shape)]), np.array([x2,y2,np.zeros(x2.shape)])
 
 
 
 def trainModel(model,df):
-
 	total_loss = 0
-	for i in range(df.shape[0]):
+	for i in range(len(df)):
 		data = torch.tensor((df.iloc[i]['X'],df.iloc[i]['Y'])).float()
-		label =  torch.tensor([df.iloc[i]['label']]).float()
+		label = torch.tensor(df.iloc[i]['label'])
 		out = model.net.forward(data)
-		model.optimizer.zero_grad()
+		out = torch.sigmoid(torch.matmul(model.W,out) + model.b )
 		loss = model.loss_function(out,label)
+		
+		model.optimizer.zero_grad()
 		loss.backward()
 		model.optimizer.step()
-		
+
 		total_loss += loss.item()
 
-	total_loss /= df.shape[0]
-	return model,total_loss
+	return model,total_loss/len(df)
+
 
 if __name__ == '__main__':
 	t = np.arange(1,1001)
 	curve1,curve2 = generatingSpace(t)
-	print (curve1.shape,curve2.shape)
 	data = np.concatenate((curve1,curve2),axis=1)
-	print (data.shape)
-	model = Train(100,0.01)
 	dataset = pd.DataFrame({'X': data[0,:], 'Y': data[1,:], 'label':data[2,:]})
 	df = shuffle(dataset)	
-	# print (df)
+	print (df.head())
+
+	model = Train(1000,0.01)
+	
 	for epoch in range(epochs):
-		print('Epoch: {}'.format(epoch+1))
 		df = shuffle(dataset)	
 		model,total_loss = trainModel(model,df)
 		print ("Epoch: {} Loss: {}".format(epoch+1,total_loss))
