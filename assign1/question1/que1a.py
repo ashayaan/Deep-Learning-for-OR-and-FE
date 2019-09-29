@@ -2,7 +2,7 @@
 # @Author: ashayaan
 # @Date:   2019-09-21 00:09:14
 # @Last Modified by:   ashayaan
-# @Last Modified time: 2019-09-27 14:11:52
+# @Last Modified time: 2019-09-29 11:50:16
 
 import torch
 import torch.nn as nn
@@ -45,6 +45,10 @@ if __name__ == '__main__':
 	label1 = np.ones(y1.shape,dtype=np.float64)
 	lable2 = np.zeros(y2.shape,dtype=np.float64)
 
+
+	plt.plot(x,y1)
+	plt.plot(x,y2)
+	plt.show()
 
 	label = np.concatenate((label1,lable2),axis=0)
 	data = np.concatenate((y1,y2),axis=0)
