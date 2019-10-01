@@ -1,23 +1,16 @@
 #!/usr/bin/env python
-
 import os, time
 import itertools, imageio, pickle
 import tensorflow as tf
-
-print(tf.executing_eagerly())
-
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import scipy
 import numpy as np
 from numpy import array
 
-
+print(tf.executing_eagerly())
 print(tf.test.is_gpu_available())
-
 print(tf.__version__)
-
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-
-import scipy
 
 sizePixel1 = 512
 sizePixel2 = sizePixel1*sizePixel1
@@ -27,7 +20,7 @@ size_d = 32
 batch_size = 30
 train_epoch = 100
 
-folder = '/home/ah2347/PNGs'
+folder = '/home/shayaan/Columbia/sem_1/Deep-Learning-for-OR-and-FE/project/png'
 
 pngLocation = 'Fixed_results'
 
@@ -39,10 +32,9 @@ model = 'DCGAN_con_run3_'
 """
 code_dir   = os.path.dirname(__file__)
 """
-
-
 #get the current path of our code
-code_dir = '/home/ah2347/'
+
+code_dir = '/home/shayaan/Columbia/sem_1/Deep-Learning-for-OR-and-FE/project'
 print("--------------------------")
 code_dir
 print(code_dir)
@@ -102,19 +94,9 @@ for j in range(0,numInSeries):
         img[counter] = orig_img.reshape(sizePixel1,sizePixel1)
         counter = counter+1
 
-#img.shape
-
-
-# # Generator module
-
-# In[4]:
-
 
 def lrelu(x, th=0.2):
     return tf.maximum(th * x, x)
-
-
-# In[5]:
 
 
 def compute_score_np(imgSample):
@@ -143,16 +125,6 @@ def compute_score_np(imgSample):
     return float(nb_labels), min1, max1
 
 
-# In[6]:
-
-
-#compute_score_np(img[3])
-
-
-# In[7]:
-
-
-# G(z)
 def generator(x, isTrain=True, reuse=False):
     with tf.variable_scope('generator', reuse=reuse):
         
