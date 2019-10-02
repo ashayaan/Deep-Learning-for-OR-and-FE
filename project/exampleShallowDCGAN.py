@@ -17,8 +17,8 @@ sizePixel2 = sizePixel1*sizePixel1
 
 size_d = 32
 
-batch_size = 30
-train_epoch = 100
+batch_size = 22
+train_epoch = 3
 
 folder = '/home/shayaan/Columbia/sem_1/Deep-Learning-for-OR-and-FE/project/png'
 
@@ -66,7 +66,7 @@ def read_tensor_from_image_file(path, input_height=sizePixel1, input_width=sizeP
     return result 
 
 
-nSeries = 222
+nSeries = 222-220
 numInSeries = 11
 nImages = nSeries*numInSeries #2442
 img  = np.zeros((nImages, sizePixel1,sizePixel1))
@@ -137,6 +137,9 @@ def generator(x, isTrain=True, reuse=False):
         # 1st hidden layer
         conv1 = tf.layers.conv2d_transpose(x, size_d*2*2*2*2*2*2, [2, 2], strides=(1, 1), padding='valid')
         lrelu1 = lrelu(tf.layers.batch_normalization(conv1, training=isTrain), 0.2)
+        print (lrelu1)
+        # score_of_layer_1 =  compute_score_np(lrelu1.eval())
+        # print (score_of_layer_1)
 #         print('conv1')
 #         print(conv1.get_shape())
         
@@ -180,16 +183,17 @@ def generator(x, isTrain=True, reuse=False):
 def discriminator(x, isTrain=True, reuse=False):
     with tf.variable_scope('discriminator', reuse=reuse):
         
-#         print('')
-#         print('inside discriminator')
-#         print('====================')
-#         print('x')
-#         print(x.get_shape())
+        print('')
+        print('inside discriminator')
+        print('====================')
+        print('x')
+        print(x.get_shape())
         
         # 1st hidden layer
         conv1 = tf.layers.conv2d(x, size_d, [7, 7], strides=(4, 4), padding='same')
 
         lrelu1 = lrelu(conv1, 0.2)
+        
 #         print('conv1')
 #         print(conv1.get_shape())
 
@@ -453,7 +457,7 @@ np.random.seed(int(time.time()))
 print('training start!')
 start_time = time.time()
 
-max_iter = 500
+max_iter = 2
 for epoch in range(train_epoch):
     G_losses = []
     G_scores = []
