@@ -416,31 +416,23 @@ Figure~\ref{fig:8} shows the two curves.
 We had to code a feed forward neural network to linear classification of the given curves. I used python to code the neural network. My solution consisted of two parts. I used the neural network to transform the topology of the curves and then trained a linear classifier to classify the curves in the transformed space. The Class which defines the neural network and all it's parameters is shown below.
 
 \begin{python}
-	import torch
-	import torch.nn as nn
-	import pandas as pd
-	import numpy as np
-	
-	class Network(nn.Module):
-		"""docstring for Network"""
-			def __init__(self):
-			super(Network, self).__init__()
-			self.relu = nn.ReLU()
-			self.Sigmoid = nn.Sigmoid()
-			
-			self.fc1 = nn.Linear(2,12)
-			self.fc2 = nn.Linear(12,18)
-			self.fc3 = nn.Linear(18,8)
-			self.fc4 = nn.Linear(8,4)
-			self.fc5 = nn.Linear(4,2)
+class Network(nn.Module):
+	"""docstring for Network"""
+	def __init__(self):
+		super(Network, self).__init__()
+		self.relu = nn.ReLU()
+		self.tanh = nn.Tanh()
+		self.Sigmoid = nn.Sigmoid()
 		
-		def forward(self,data):
-			out = self.relu(self.fc1(data))
-			out = self.relu(self.fc2(out))
-			out = self.relu(self.fc3(out))
-			out = self.relu(self.fc4(out))
-			out = self.relu(self.fc5(out))
-			return out
+		self.fc1 = nn.Linear(2,100,bias=True)
+		self.fc2 = nn.Linear(100,50,bias=True)
+		self.fc3 = nn.Linear(50,2)
+	
+	def forward(self,data):
+		out = self.tanh(self.fc1(data))
+		out = self.tanh(self.fc2(out))
+		out = self.tanh(self.fc3(out))
+		return out
 \end{python}
 
 The code to train the neural network and the linear separator is given below. I used the adam optimizer provided by the PyTorch library to find the optimal. The linear separator and the weights of the neural network are adjusted by computing the binary cross entropy loss in classification
@@ -477,10 +469,23 @@ The code to train the neural network and the linear separator is given below. I 
 		return model,total_loss/len(df)
 \end{python}
 
+The transformed curves and the linear separators are shown in figure~\ref{fig:9}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale = 0.3]{separator}
+	\caption{The curves and linear separator in the spcae transformed by the neural network}
+	\label{fig:9}
+\end{figure}
+
+
+It can be seen from figure~\ref{fig:9} that the neural network is effectively able to learn the transformations such that the curves become linearly separable. Figure~\ref{fig:10} shows the loss per epoch.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{que3_loss}
 	\caption{Loss per epoch}
+	\label{fig:10}
 \end{figure}
 The minimum loss that we attain is 0.4269.
 

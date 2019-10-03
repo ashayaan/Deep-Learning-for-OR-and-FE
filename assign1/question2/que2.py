@@ -2,7 +2,7 @@
 # @Author: ashayaan
 # @Date:   2019-09-21 00:37:27
 # @Last Modified by:   ashayaan
-# @Last Modified time: 2019-10-02 02:02:42
+# @Last Modified time: 2019-10-03 10:24:28
 import torch
 import torch.nn as nn
 import pandas as pd
@@ -14,8 +14,8 @@ import itertools
 
 
 
-epochs = 1000
-learning_rate = 0.01
+epochs = 500
+learning_rate = 0.0005
 
 class Train(object):
 	"""docstring for Train"""
@@ -25,7 +25,7 @@ class Train(object):
 		self.net = Network()
 		self.W = torch.ones(2,requires_grad=True)
 		self.b = torch.ones(1,requires_grad=True)
-		self.optimizer = torch.optim.Adagrad(itertools.chain(self.net.parameters(), [self.W], [self.b]), lr = self.learning_rate)
+		self.optimizer = torch.optim.Adam(itertools.chain(self.net.parameters(), [self.W], [self.b]), lr = self.learning_rate)
 		self.loss_function =  torch.nn.BCELoss(reduction='sum')
 		
 
@@ -69,7 +69,7 @@ def trainModel(model,df):
 
 
 if __name__ == '__main__':
-	t = np.arange(1,100)
+	t = np.arange(1,50)
 	curve1,curve2 = generatingSpace(t)
 	data = np.concatenate((curve1,curve2),axis=1)
 	dataset = pd.DataFrame({'X': data[0,:], 'Y': data[1,:], 'label':data[2,:]})

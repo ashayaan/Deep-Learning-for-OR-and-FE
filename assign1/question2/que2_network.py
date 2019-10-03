@@ -2,7 +2,7 @@
 # @Author: ashayaan
 # @Date:   2019-09-21 15:41:09
 # @Last Modified by:   ashayaan
-# @Last Modified time: 2019-10-02 01:02:36
+# @Last Modified time: 2019-10-03 10:21:20
 import torch
 import torch.nn as nn
 import pandas as pd
@@ -16,9 +16,9 @@ class Network(nn.Module):
 		self.tanh = nn.Tanh()
 		self.Sigmoid = nn.Sigmoid()
 
-		self.fc1 = nn.Linear(2,100,bias=True)
-		self.fc2 = nn.Linear(100,50,bias=True)
-		self.fc3 = nn.Linear(50,2)
+		self.fc1 = nn.Linear(2,5,bias=True)
+		self.fc2 = nn.Linear(5,5,bias=True)
+		self.fc3 = nn.Linear(5,2)
 
 	def forward(self,data):
 		out = self.tanh(self.fc1(data))
