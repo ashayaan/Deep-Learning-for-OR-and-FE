@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.23)  14 OCT 2019 15:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.23)  16 OCT 2019 14:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1441,7 +1441,7 @@ Package logreq Info: Writing requests to 'assign2_report.run.xml'.
 Here is how much of TeX's memory you used:
  17278 strings out of 493029
  269879 string characters out of 6136233
- 723258 words of memory out of 5000000
+ 723257 words of memory out of 5000000
  20518 multiletter control sequences out of 15000+600000
  64439 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1453,7 +1453,7 @@ c/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share
 fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pf
 b></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmtt10.pfb>
-Output written on assign2_report.pdf (8 pages, 312264 bytes).
+Output written on assign2_report.pdf (8 pages, 312239 bytes).
 PDF statistics:
  133 PDF objects out of 1000 (max. 8388607)
  97 compressed objects within 1 object stream
